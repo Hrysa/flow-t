@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:background="@color/colorPrimary"
+        android:paddingTop="20dp"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/button"
+            android:layout_width="50dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0"
+            android:textSize="25dp"
+            android:background="@android:color/transparent"
+            android:textColor="@color/textColorPrimary"
+            android:text="◁" />
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textColor="@color/textColorPrimary"
+            android:gravity="center_horizontal"
+            android:lines="1"
+            android:textSize="18dp"
+            android:text="Welcome Back!" />
+
+
+        <Button
+            android:id="@+id/button3"
+            android:layout_width="50dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0"
+            android:textSize="25dp"
+            android:background="@android:color/transparent"
+            android:textColor="@color/textColorPrimary"
+            android:text="···" />
+    </LinearLayout>
+</layout>
