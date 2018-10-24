@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="Flow">
+        <attr name="Flow.Primary.Color" format="color" />
+        <attr name="Flow.Secondary.Color" format="color" />
+        <attr name="Flow.Normal.Color" format="color" />
+
+
+        <attr name="Flow.Primary.TextColor" format="color" />
+        <attr name="Flow.Secondary.TextColor" format="color" />
+        <attr name="Flow.Normal.TextColor" format="color" />
+
+
+        <attr name="Flow.Warning.Color" format="color" />
+        <attr name="Flow.Error.Color" format="color" />
+        <attr name="Flow.Success.Color" format="color" />
+
+        <attr name="flow.Size.title" format="dimension" />
+
+        <!--<attr name="flow.TextSizePrimary" format="dimension" />-->
+        <!--<attr name="flow.TextSizePrimary" format="dimension" />-->
+        <!--<attr name="flow.TextSizePrimary" format="dimension" />-->
+        <!--<attr name="flow.TextSizePrimary" format="dimension" />-->
+        <!--<attr name="flow.TextSizePrimary" format="dimension" />-->
+
+
+    </declare-styleable>
+</resources>

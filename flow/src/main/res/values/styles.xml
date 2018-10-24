@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="ImageTranslucentTheme" parent="Theme.AppCompat.Light.NoActionBar">
+    </style>
+
+    <style name="FlowAppTheme" parent="ImageTranslucentTheme">
+        <!-- Customize your theme here. -->
+        <item name="actionBarTabBarStyle">@style/Theme.AppCompat.NoActionBar</item>
+
+        <item name="Flow.Primary.Color" >#4cb4e7</item>
+        <item name="Flow.Secondary.Color" >#ffc09f</item>
+        <item name="Flow.Normal.Color" >#ffee93</item>
+
+
+        <item name="Flow.Primary.TextColor" >#FFFFFF</item>
+        <item name="Flow.Secondary.TextColor" >#333333</item>
+        <item name="Flow.Normal.TextColor" >#666666</item>
+
+
+        <item name="Flow.Warning.Color" >#ff5722</item>
+        <item name="Flow.Error.Color" >#f44336</item>
+        <item name="Flow.Success.Color" >#4caf50</item>
+    </style>
+
+
+</resources>

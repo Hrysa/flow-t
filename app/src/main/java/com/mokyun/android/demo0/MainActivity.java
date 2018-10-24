@@ -1,17 +1,15 @@
 package com.mokyun.android.demo0;
 
 
+import android.support.v4.app.Fragment;
 import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.widget.LinearLayout;
 
-import com.mokyun.android.demo0.viewmodel.MainViewModel;
+import com.eevoe.flow.FlowActivity;
 
-import com.mokyun.android.demo0.databinding.ActivityMainBinding;
+public class MainActivity extends FlowActivity {
 
-public class MainActivity extends BaseActivity<MainViewModel, ActivityMainBinding> {
-
-    protected LinearLayout onCreateView() {
-        return (LinearLayout) LayoutInflater.from(this).inflate(R.layout.nav_bar, null);
+    @Override
+    protected Fragment onCreateFlow(Bundle savedInstanceState) {
+        return new LaunchFragment();
     }
 }
