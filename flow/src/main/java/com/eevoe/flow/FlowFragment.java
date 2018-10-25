@@ -1,14 +1,24 @@
 package com.eevoe.flow;
 
+import android.databinding.DataBindingUtil;
 import android.os.Bundle;
+import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
+
+import com.eevoe.flow.vm.NavBarVModel;
+
+import com.eevoe.flow.databinding.NavBarBinding;
+import com.eevoe.flow.databinding.FragmentMainBinding;
+import com.eevoe.flow.databinding.ActivityMainBinding;
 
 abstract public class FlowFragment extends Fragment {
 
@@ -16,15 +26,33 @@ abstract public class FlowFragment extends Fragment {
 
     int mNavBarHeight;
 
+    NavBarVModel mNavBarVModel;
+
+    FragmentMainBinding mFragmentMainBinding;
+
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        mLayout = (RelativeLayout) inflater.inflate(R.layout.fragment_main, container, false);
+
+        // init nav bar ViewModel.
+        mNavBarVModel = new NavBarVModel(getActivity().getApplication());
+        mNavBarVModel.init(getActivity());
+
+        // inflate view.
+        mFragmentMainBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_main, container, false);
+        mFragmentMainBinding.navBar.setNavBarVModel(mNavBarVModel);
+
+        mLayout = (RelativeLayout) mFragmentMainBinding.getRoot();
         View view = onCreateView(inflater);
         if (view != null) {
             ((LinearLayout) mLayout.findViewById(R.id.fragment_container)).addView(view);
         }
+
         return mLayout;
+    }
+
+    protected NavBarVModel getNavBarVModel() {
+        return mNavBarVModel;
     }
 
 
@@ -48,6 +76,15 @@ abstract public class FlowFragment extends Fragment {
         }
     }
 
+    public void push(Fragment f) {
+        ((FlowActivity) getActivity()).push(f);
+
+    }
+
+    public void replace(Fragment f) {
+        ((FlowActivity) getActivity()).push(f);
+
+    }
 
     abstract public View onCreateView(@NonNull LayoutInflater inflater);
 }

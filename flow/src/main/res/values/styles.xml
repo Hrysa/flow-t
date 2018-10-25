@@ -22,6 +22,8 @@
         <item name="Flow.Warning.Color" >#ff5722</item>
         <item name="Flow.Error.Color" >#f44336</item>
         <item name="Flow.Success.Color" >#4caf50</item>
+
+        <item name="colorButtonNormal">@android:color/holo_blue_light</item>
     </style>
 
 

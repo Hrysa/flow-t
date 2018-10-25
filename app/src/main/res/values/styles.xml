@@ -6,7 +6,7 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
 
-        <!--<item name="Flow.Primary.Color">#000</item>-->
+        <item name="Flow.Primary.TextColor">#FFF</item>
 
         <item name="actionBarTabBarStyle">@style/Theme.AppCompat.NoActionBar</item>
 

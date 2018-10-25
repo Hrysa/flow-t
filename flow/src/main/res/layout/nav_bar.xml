@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android">
+    <data>
+        <variable
+            name="navBarVModel"
+            type="com.eevoe.flow.vm.NavBarVModel" />
+    </data>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="70dp"
@@ -7,37 +12,61 @@
         android:paddingTop="20dp"
         android:gravity="center"
         android:orientation="horizontal">
-
-        <Button
-            android:id="@+id/button"
-            android:layout_width="50dp"
-            android:layout_height="match_parent"
+        <LinearLayout
             android:layout_weight="0"
-            android:textSize="25dp"
-            android:background="@android:color/transparent"
-            android:textColor="?attr/Flow.Primary.TextColor"
-            android:text="◁" />
-
-        <TextView
-            android:id="@+id/textView"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="wrap_content">
+            <Button
+                android:id="@+id/button"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:textSize="16dp"
+                android:layout_marginLeft="10dp"
+                android:drawableLeft="@{navBarVModel.leftIcon}"
+                android:textAlignment="textStart"
+                android:layout_gravity="start"
+                android:textColor="?attr/Flow.Primary.TextColor"
+                android:background="@android:color/transparent"
+                android:onClick="@{navBarVModel.leftOnClick}"
+                android:text="@{navBarVModel.leftTitle}" />
+        </LinearLayout>
+
+        <LinearLayout
             android:layout_weight="1"
-            android:textColor="?attr/Flow.Primary.TextColor"
-            android:gravity="center_horizontal"
-            android:lines="1"
-            android:textSize="18dp"
-            android:text="Welcome Back!" />
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/textView"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:textColor="?attr/Flow.Primary.TextColor"
+                android:gravity="center_horizontal"
+                android:lines="1"
+                android:textSize="18dp"
+                android:text="@{navBarVModel.title}" />
+        </LinearLayout>
 
 
-        <Button
-            android:id="@+id/button3"
-            android:layout_width="50dp"
-            android:layout_height="match_parent"
+
+        <LinearLayout
             android:layout_weight="0"
-            android:textSize="25dp"
-            android:background="@android:color/transparent"
-            android:textColor="?attr/Flow.Primary.TextColor"
-            android:text="···" />
+            android:gravity="center_vertical|right"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <Button
+                android:id="@+id/button3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="16dp"
+                android:layout_marginRight="10dp"
+                android:background="@android:color/transparent"
+                android:drawableLeft="@{navBarVModel.rightIcon}"
+                android:textColor="?attr/Flow.Primary.TextColor"
+                android:textAlignment="textStart"
+                android:layout_gravity="start"
+                android:onClick="@{navBarVModel.rightOnClick}"
+                android:text="@{navBarVModel.rightTitle}" />
+        </LinearLayout>
+
     </LinearLayout>
 </layout>
