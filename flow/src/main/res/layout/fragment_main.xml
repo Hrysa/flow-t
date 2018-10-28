@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android">
     <RelativeLayout
+        android:clickable="true"
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
         <include
             layout="@layout/nav_bar"
             android:id="@+id/nav_bar" />
-        <LinearLayout
+        <FrameLayout
             android:id="@+id/fragment_container"
             android:layout_width="match_parent"
             android:layout_below="@+id/nav_bar"
@@ -15,6 +16,6 @@
             android:layout_height="match_parent"
             android:orientation="vertical"
             android:background="#666">
-        </LinearLayout>
+        </FrameLayout>
     </RelativeLayout>
 </layout>

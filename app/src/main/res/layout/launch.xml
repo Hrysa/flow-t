@@ -5,12 +5,26 @@
         android:layout_height="match_parent"
         android:paddingTop="20dp"
         android:gravity="center"
-        android:background="?attr/Flow.Secondary.Color"
+        android:background="?attr/Flow.Warning.Color"
         android:orientation="horizontal">
 
-        <ImageView
-            android:layout_width="match_parent"
+        <Button
+            android:id="@+id/launch_icon"
+            android:layout_margin="10dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@mipmap/ic_launcher" />
+            android:text="launch" />
+        <Button
+            android:id="@+id/login"
+            android:layout_margin="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="login"/>
+        <Button
+            android:id="@+id/logout"
+            android:layout_margin="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="logout"/>
     </LinearLayout>
 </layout>

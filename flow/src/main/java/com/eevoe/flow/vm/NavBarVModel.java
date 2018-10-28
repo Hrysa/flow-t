@@ -20,6 +20,7 @@ import android.support.annotation.ColorInt;
 import android.support.annotation.NonNull;
 import android.support.v4.graphics.drawable.DrawableCompat;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Toast;
@@ -34,6 +35,7 @@ public class NavBarVModel extends AndroidViewModel {
     final public ObservableField<String> title = new ObservableField<>();
     final public ObservableField<String> leftTitle = new ObservableField<>();
     final public ObservableField<String> rightTitle = new ObservableField<>();
+    final public ObservableField<Integer> titleGravity = new ObservableField<>(Gravity.LEFT);
 
     public View.OnClickListener leftOnClick;
 
@@ -61,7 +63,7 @@ public class NavBarVModel extends AndroidViewModel {
 
     public void init(final Activity activity) {
         setLeftIcon(activity.getResources().getDrawable(R.drawable.back));
-//        setRightIcon(activity.getResources().getDrawable(R.drawable.back));
+        setRightIcon(activity.getResources().getDrawable(R.drawable.more));
         leftOnClick = new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -87,7 +89,7 @@ public class NavBarVModel extends AndroidViewModel {
     }
 
     public void setLeftTitle(String s) {
-        leftTitle.set("  " + s);
+        leftTitle.set(s);
     }
 }
 

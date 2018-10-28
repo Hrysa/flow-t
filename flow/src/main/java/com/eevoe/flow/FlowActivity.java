@@ -8,12 +8,20 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.FrameLayout;
+
+import com.google.gson.reflect.TypeToken;
 
 import java.util.Timer;
 import java.util.TimerTask;
 
 
 abstract public class FlowActivity extends AppCompatActivity {
+    private static final String TAG = "FlowActivity";
+
+    private boolean mIsReplaceFragment = false;
+
+    private FrameLayout mContainer;
 
     @Override
     final protected void onCreate(Bundle savedInstanceState) {
@@ -22,21 +30,17 @@ abstract public class FlowActivity extends AppCompatActivity {
         // init ui translucent theme.
         getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
 
-        setContentView(R.layout.activity_main);
+//        setContentView(R.layout.activity_main);
+        mContainer = new FrameLayout(this);
+        mContainer.setId(getContextViewId());
+        setContentView(mContainer);
 
         final Fragment fragment = onCreateFlow(savedInstanceState);
-        Timer timer = new Timer();
-        timer.schedule(new TimerTask() {
-            @Override
-            public void run() {
-                getSupportFragmentManager().beginTransaction()
-                        .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
-                        .replace(R.id.activity_container, fragment)
-                        .addToBackStack(fragment.getClass().getSimpleName())
-                        .commit();
-            }
-        }, 2000);
-
+        getSupportFragmentManager().beginTransaction()
+                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+                .add(getContextViewId(), fragment)
+                .addToBackStack(fragment.getClass().getSimpleName())
+                .commit();
     }
 
 
@@ -44,8 +48,9 @@ abstract public class FlowActivity extends AppCompatActivity {
     public void onBackPressed() {
         System.out.println("按下了back键   onBackPressed()");
         Log.wtf("onBackPressed: ", Integer.toString(getSupportFragmentManager().getFragments().size()) );
-        if (getSupportFragmentManager().getFragments().size() > 1) {
-            super.onBackPressed();
+        if (getSupportFragmentManager().getFragments().size() > 0) {
+//            super.onBackPressed();
+            back();
         } else {
             Intent home = new Intent(Intent.ACTION_MAIN);
             home.addCategory(Intent.CATEGORY_HOME);
@@ -54,28 +59,66 @@ abstract public class FlowActivity extends AppCompatActivity {
     }
 
     public void replace(Fragment fragment) {
-        getSupportFragmentManager().beginTransaction()
-                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
-                .setCustomAnimations(R.anim.slide_right_in, R.anim.slide_right_out, R.anim.slide_right_in, R.anim.slide_right_out)
-                .replace(R.id.activity_container, fragment)
-                .addToBackStack(fragment.getClass().getSimpleName())
-                .commit();
+//        getSupportFragmentManager().beginTransaction()
+//                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+//                .setCustomAnimations(R.anim.slide_right_in, R.anim.slide_right_out, R.anim.slide_right_in, R.anim.slide_right_out)
+//                .add(R.id.activity_container, fragment)
+//                .addToBackStack(fragment.getClass().getSimpleName())
+//                .commit();
+        mIsReplaceFragment = true;
+        push(fragment);
+//        FragmentManager fm = getSupportFragmentManager();
+//        int size = fm.getFragments().size() - 1;
+//        getSupportFragmentManager().beginTransaction()
+//                .remove(fm.getFragments().get(size))
+//                .commit();
     }
+
+    public void updateReplaceStatus() {
+        if (mIsReplaceFragment == true) {
+            FragmentManager fm = getSupportFragmentManager();
+            int size = fm.getFragments().size();
+            final Fragment fragment = fm.getFragments().get(size - 2);
+            mIsReplaceFragment = false;
+            getSupportFragmentManager().beginTransaction()
+                    .remove(fragment)
+                    .commit();
+//            Timer timer = new Timer();
+//            timer.schedule(new TimerTask() {
+//                @Override
+//                public void run() {
+//                    getSupportFragmentManager().beginTransaction()
+//                            .remove(fragment)
+//                            .commit();
+//                }
+//            }, 0);
+        }
+    }
+
+
 
     public void push(Fragment fragment) {
         getSupportFragmentManager()
                 .beginTransaction()
-                .setCustomAnimations(R.anim.slide_right_in, R.anim.slide_right_out, R.anim.slide_right_in, R.anim.slide_right_out)
-                .add(R.id.activity_container, fragment, fragment.getClass().getSimpleName())
+                .setCustomAnimations(R.anim.slide_right_in, R.anim.slide_left_out, R.anim.slide_left_in, R.anim.slide_right_out)
+                .replace(getContextViewId(), fragment, fragment.getClass().getSimpleName())
                 .addToBackStack(fragment.getClass().getSimpleName())
                 .commit();
     }
 
     public void back(int size) {
+        Log.i(TAG, "popBackStack: getSupportFragmentManager().getBackStackEntryCount() = " + getSupportFragmentManager().getBackStackEntryCount());
         FragmentManager fm = getSupportFragmentManager();
         for (int i = size; i > 0; i--) {
-            fm.popBackStack();
+            fm.popBackStackImmediate();
         }
+    }
+
+//    public <T extends Object> T getState() {
+//        return ((FlowApplication) getApplication()).getState(new TypeToken<T>(){}.getClass());
+//    }
+    public FlowState getState() {
+        return ((FlowApplication) getApplication()).getState();
     }
 
     public void back() {
@@ -83,5 +126,7 @@ abstract public class FlowActivity extends AppCompatActivity {
     }
 
     abstract protected Fragment onCreateFlow(Bundle savedInstanceState);
+
+    abstract public int getContextViewId();
 }
 

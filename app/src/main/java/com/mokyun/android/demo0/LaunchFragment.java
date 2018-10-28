@@ -10,9 +10,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.eevoe.flow.FlowActivity;
 import com.eevoe.flow.FlowFragment;
+import com.mokyun.android.demo0.state.LoginState;
 
 public class LaunchFragment extends FlowFragment {
 //    @Nullable
@@ -38,10 +40,17 @@ public class LaunchFragment extends FlowFragment {
     public View onCreateView(@NonNull LayoutInflater inflater) {
         hideNav();
         LinearLayout view = (LinearLayout) inflater.inflate(R.layout.launch, null, false);
-        view.setOnClickListener(new View.OnClickListener() {
+        view.findViewById(R.id.launch_icon).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 push(new HomeFragment());
+            }
+        });
+
+        view.findViewById(R.id.login).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                getState().get(LoginState.class).setLogin(LoginState.IS_LOGIN);
             }
         });
         return view;

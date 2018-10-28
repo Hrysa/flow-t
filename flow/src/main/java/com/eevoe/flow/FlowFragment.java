@@ -10,6 +10,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
@@ -44,10 +45,15 @@ abstract public class FlowFragment extends Fragment {
 
         mLayout = (RelativeLayout) mFragmentMainBinding.getRoot();
         View view = onCreateView(inflater);
+        view.setClickable(true);
         if (view != null) {
-            ((LinearLayout) mLayout.findViewById(R.id.fragment_container)).addView(view);
+            ((FrameLayout) mLayout.findViewById(R.id.fragment_container)).addView(view);
         }
 
+        /**
+         * if create with replace, call update function in FlowActivity.
+         */
+        ((FlowActivity) getActivity()).updateReplaceStatus();
         return mLayout;
     }
 
@@ -82,8 +88,11 @@ abstract public class FlowFragment extends Fragment {
     }
 
     public void replace(Fragment f) {
-        ((FlowActivity) getActivity()).push(f);
+        ((FlowActivity) getActivity()).replace(f);
+    }
 
+    public FlowState getState() {
+        return ((FlowActivity) getActivity()).getState();
     }
 
     abstract public View onCreateView(@NonNull LayoutInflater inflater);

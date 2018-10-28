@@ -11,33 +11,30 @@
         android:background="?attr/Flow.Primary.Color"
         android:paddingTop="20dp"
         android:gravity="center"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:baselineAligned="false">
         <LinearLayout
-            android:layout_weight="0"
+            android:layout_gravity="center_vertical"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
-            <Button
-                android:id="@+id/button"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:textSize="16dp"
-                android:layout_marginLeft="10dp"
-                android:drawableLeft="@{navBarVModel.leftIcon}"
-                android:textAlignment="textStart"
-                android:layout_gravity="start"
-                android:textColor="?attr/Flow.Primary.TextColor"
-                android:background="@android:color/transparent"
-                android:onClick="@{navBarVModel.leftOnClick}"
-                android:text="@{navBarVModel.leftTitle}" />
+            android:layout_height="match_parent">
+            <ImageView
+                android:clickable="true"
+                android:layout_width="50dp"
+                android:layout_height="match_parent"
+                android:background="?attr/selectableItemBackground"
+                android:padding="12.5dp"
+                android:src="@{navBarVModel.leftIcon}"
+                android:onClick="@{navBarVModel.leftOnClick}" />
         </LinearLayout>
 
         <LinearLayout
             android:layout_weight="1"
-            android:layout_width="wrap_content"
+            android:gravity="@{navBarVModel.titleGravity}"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <TextView
                 android:id="@+id/textView"
-                android:layout_width="fill_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="?attr/Flow.Primary.TextColor"
                 android:gravity="center_horizontal"
@@ -49,23 +46,18 @@
 
 
         <LinearLayout
-            android:layout_weight="0"
             android:gravity="center_vertical|right"
+            android:clickable="true"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
-            <Button
-                android:id="@+id/button3"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="16dp"
-                android:layout_marginRight="10dp"
-                android:background="@android:color/transparent"
-                android:drawableLeft="@{navBarVModel.rightIcon}"
-                android:textColor="?attr/Flow.Primary.TextColor"
-                android:textAlignment="textStart"
-                android:layout_gravity="start"
-                android:onClick="@{navBarVModel.rightOnClick}"
-                android:text="@{navBarVModel.rightTitle}" />
+            android:layout_height="match_parent">
+            <ImageView
+                android:clickable="true"
+                android:layout_width="50dp"
+                android:layout_height="match_parent"
+                android:background="?attr/selectableItemBackground"
+                android:padding="12.5dp"
+                android:src="@{navBarVModel.rightIcon}"
+                android:onClick="@{navBarVModel.rightOnClick}" />
         </LinearLayout>
 
     </LinearLayout>
