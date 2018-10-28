@@ -19,7 +19,7 @@ import java.util.TimerTask;
 abstract public class FlowActivity extends AppCompatActivity {
     private static final String TAG = "FlowActivity";
 
-    private boolean mIsReplaceFragment = false;
+    private int mIsReplaceFragmentIndex = -1;
 
     private FrameLayout mContainer;
 
@@ -38,7 +38,7 @@ abstract public class FlowActivity extends AppCompatActivity {
         final Fragment fragment = onCreateFlow(savedInstanceState);
         getSupportFragmentManager().beginTransaction()
                 .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
-                .add(getContextViewId(), fragment)
+                .replace(getContextViewId(), fragment)
                 .addToBackStack(fragment.getClass().getSimpleName())
                 .commit();
     }
@@ -48,7 +48,7 @@ abstract public class FlowActivity extends AppCompatActivity {
     public void onBackPressed() {
         System.out.println("按下了back键   onBackPressed()");
         Log.wtf("onBackPressed: ", Integer.toString(getSupportFragmentManager().getFragments().size()) );
-        if (getSupportFragmentManager().getFragments().size() > 1) {
+        if (getSupportFragmentManager().getFragments().size() > 0) {
 //            super.onBackPressed();
             back();
         } else {
@@ -65,7 +65,8 @@ abstract public class FlowActivity extends AppCompatActivity {
 //                .add(R.id.activity_container, fragment)
 //                .addToBackStack(fragment.getClass().getSimpleName())
 //                .commit();
-        mIsReplaceFragment = true;
+        mIsReplaceFragmentIndex = getSupportFragmentManager().getBackStackEntryCount() - 1;
+        Log.i(TAG, "replace: index: " + Integer.toString(mIsReplaceFragmentIndex));
         push(fragment);
 //        FragmentManager fm = getSupportFragmentManager();
 //        int size = fm.getFragments().size() - 1;
@@ -75,14 +76,15 @@ abstract public class FlowActivity extends AppCompatActivity {
     }
 
     public void updateReplaceStatus() {
-        if (mIsReplaceFragment == true) {
-            FragmentManager fm = getSupportFragmentManager();
-            int size = fm.getFragments().size();
-            final Fragment fragment = fm.getFragments().get(size - 2);
-            mIsReplaceFragment = false;
-            getSupportFragmentManager().beginTransaction()
-                    .remove(fragment)
-                    .commit();
+        if (mIsReplaceFragmentIndex > 0) {
+            // TODO replace fragment.
+            mIsReplaceFragmentIndex = -1;
+
+//            getSupportFragmentManager().popBackStack();
+//            final Fragment fragment = getSupportFragmentManager().getFragments().get(mIsReplaceFragmentIndex);
+//            getSupportFragmentManager().beginTransaction()
+//                    .remove(fragment)
+//                    .commit();
 //            Timer timer = new Timer();
 //            timer.schedule(new TimerTask() {
 //                @Override

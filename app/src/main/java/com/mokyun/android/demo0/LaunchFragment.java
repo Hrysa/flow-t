@@ -44,7 +44,7 @@ public class LaunchFragment extends FlowFragment {
         view.findViewById(R.id.launch_icon).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                push(new HomeFragment());
+                replace(new HomeFragment());
             }
         });
 
