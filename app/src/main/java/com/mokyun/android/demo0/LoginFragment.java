@@ -14,6 +14,12 @@ public class LoginFragment extends FlowFragment {
     public View onCreateView(@NonNull LayoutInflater inflater) {
         hideNav();
         LinearLayout view = (LinearLayout) inflater.inflate(R.layout.login, null, false);
+        view.findViewById(R.id.login).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                push(new LaunchFragment());
+            }
+        });
 //        view.findViewById(R.id.launch_icon).setOnClickListener(new View.OnClickListener() {
 //            @Override
 //            public void onClick(View view) {

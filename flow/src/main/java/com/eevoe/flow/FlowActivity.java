@@ -48,7 +48,7 @@ abstract public class FlowActivity extends AppCompatActivity {
     public void onBackPressed() {
         System.out.println("按下了back键   onBackPressed()");
         Log.wtf("onBackPressed: ", Integer.toString(getSupportFragmentManager().getFragments().size()) );
-        if (getSupportFragmentManager().getFragments().size() > 0) {
+        if (getSupportFragmentManager().getFragments().size() > 1) {
 //            super.onBackPressed();
             back();
         } else {

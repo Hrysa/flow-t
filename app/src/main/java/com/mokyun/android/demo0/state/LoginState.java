@@ -21,8 +21,7 @@ public class LoginState implements FlowStateInterFace {
     }
 
     public void init(FlowState flowState) {
-        mACache = ((ACacheState) flowState.get(ACacheState.class)).get();
-
+        mACache = flowState.get(ACacheState.class).get();
 
         Boolean isLogin = mACache.get(getClass().getName());
         if (isLogin != null && isLogin == IS_LOGIN) {
