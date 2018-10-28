@@ -28,25 +28,25 @@ android toy testing version
 
 ### create application class (optional)
 	
-	```java
-	public class DemoApplication extends FlowApplication {
-	    @Override
-	    public void onCreate() {
-	        super.onCreate();
-	        // add State
-	//        getState().add(new ACacheState(getApplicationContext()));
-	//        getState().add(new LoginState());
-	    }
-	}
-	```
-	set class into `AndroidManifest.xml`
+```java
+public class DemoApplication extends FlowApplication {
+    @Override
+    public void onCreate() {
+        super.onCreate();
+        // add State
+        // getState().add(new ACacheState(getApplicationContext()));
+		// getState().add(new LoginState());
+    }
+}
+```
+set class into `AndroidManifest.xml`
 	
-	```xml
+```xml
 	
-		<application
-			...
-       	android:name=".DemoApplication">
-	```
+	<application
+		...
+   	android:name=".DemoApplication">
+```
 
 ### extends your theme
 in your ``res`->`values`->`styles`.xml
