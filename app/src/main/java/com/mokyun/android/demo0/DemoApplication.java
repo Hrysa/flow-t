@@ -11,6 +11,5 @@ public class DemoApplication extends FlowApplication {
         super.onCreate();
         getState().add(new ACacheState(getApplicationContext()));
         getState().add(new LoginState());
-
     }
 }

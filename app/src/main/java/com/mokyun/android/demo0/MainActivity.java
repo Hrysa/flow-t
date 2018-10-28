@@ -16,7 +16,8 @@ public class MainActivity extends FlowActivity {
 
         if (!loginState.isLogin()) {
             Toast.makeText(this, "not login", Toast.LENGTH_SHORT).show();
-            return new LaunchFragment();
+//            return new LaunchFragment();
+            return new LoginFragment();
         } else {
             return new HomeFragment();
         }

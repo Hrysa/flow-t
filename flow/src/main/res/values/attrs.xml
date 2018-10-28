@@ -22,7 +22,6 @@
         <!--<attr name="flow.TextSizePrimary" format="dimension" />-->
         <!--<attr name="flow.TextSizePrimary" format="dimension" />-->
         <!--<attr name="flow.TextSizePrimary" format="dimension" />-->
-
-
+        <attr name="Flow.Button.Radius" format="dimension">2dp</attr>
     </declare-styleable>
 </resources>
