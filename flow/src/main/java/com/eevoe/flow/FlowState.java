@@ -21,12 +21,13 @@ public class FlowState {
         return mFlowState;
     }
 
-    public<T extends FlowStateInterFace> void add(T o) {
+    public<T extends FlowStateInterFace> FlowState add(T o) {
         Class className = o.getClass();
         if (mStatePool.get(className) == null) {
             o.init(this);
             mStatePool.put(className, o);
         }
+        return this;
     }
 
     public <T extends FlowStateInterFace> T get(Class<T> clazz) {

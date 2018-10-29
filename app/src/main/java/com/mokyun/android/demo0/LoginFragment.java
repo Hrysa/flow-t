@@ -1,12 +1,24 @@
 package com.mokyun.android.demo0;
 
 import android.support.annotation.NonNull;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.LinearLayout;
 
 import com.eevoe.flow.FlowFragment;
-import com.mokyun.android.demo0.state.LoginState;
+import com.eevoe.flow.http.response.Res;
+import com.mokyun.android.demo0.http.Post;
+import com.mokyun.android.demo0.http.TestService;
+import com.mokyun.android.demo0.state.ApiClientState;
+
+import junit.framework.Test;
+
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class LoginFragment extends FlowFragment {
 
@@ -33,6 +45,20 @@ public class LoginFragment extends FlowFragment {
 //                getState().get(LoginState.class).setLogin(LoginState.IS_LOGIN);
 //            }
 //        });
+        getState()
+                .get(ApiClientState.class)
+                .create(TestService.class)
+                .test()
+                .enqueue(new Callback<Res<List<Post>>>() {
+                    @Override
+                    public void onResponse(Call<Res<List<Post>>> call, Response<Res<List<Post>>> response) {
+                        Log.wtf("????", response.body().toJsonString());
+                        response.body();
+                    }
+
+                    @Override
+                    public void onFailure(Call<Res<List<Post>>> call, Throwable t) {}
+                });
         return view;
     }
 }
