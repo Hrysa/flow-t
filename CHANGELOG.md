@@ -26,14 +26,15 @@
 
 #### add annotation @FlowState
 
-```
+```java
 public class HomeFragment extends FlowFragment {
 	// before
 	LoginState loginState = getState().get(LoginState.class);
 
 	// now
 	@FlowState
-    LoginState loginState;
+	LoginState loginState;
+
 ```
 > this annotation allow you to quickly bind the state into fragment.
 
