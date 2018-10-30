@@ -24,7 +24,8 @@ public class LoginFragment extends FlowFragment {
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater) {
-        hideNav();
+        getNavBarVModel().setNavBarVisibility(View.GONE);
+
         LinearLayout view = (LinearLayout) inflater.inflate(R.layout.login, null, false);
         view.findViewById(R.id.login).setOnClickListener(new View.OnClickListener() {
             @Override

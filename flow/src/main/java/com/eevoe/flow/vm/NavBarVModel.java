@@ -34,8 +34,6 @@ import com.eevoe.flow.R;
 
 public class NavBarVModel extends AndroidViewModel {
     final public ObservableField<Drawable> leftIcon = new ObservableField<>();
-    final public ObservableField<Integer> leftIconVisibility = new ObservableField<>();
-    final public ObservableField<Integer> rightIconVisibility = new ObservableField<>();
     final public ObservableField<Drawable> rightIcon = new ObservableField<>();
     final public ObservableField<String> title = new ObservableField<>();
     final public ObservableField<Integer> titleGravity = new ObservableField<>(Gravity.LEFT);
@@ -47,10 +45,6 @@ public class NavBarVModel extends AndroidViewModel {
     Fragment mFragment;
 
     View mView;
-
-    private int mNavBarHeight;
-    private int mLeftInconWidth;
-    private int mRightInconWidth;
 
     public void init(final Fragment fragment) {
         mFragment = fragment;
@@ -72,41 +66,15 @@ public class NavBarVModel extends AndroidViewModel {
         mView = view;
     }
 
-    public void hideLeftIcon() {
-        View view = mView.findViewById(R.id.nav_bar_left_icon);
-        ViewGroup.LayoutParams lp = view.getLayoutParams();
-        if (lp.width > 0) {
-            mLeftInconWidth = lp.width;
-            lp.width = 0;
-            view.setLayoutParams(lp);
-        }
+    public void setLeftIconVisibility(int type) {
+        mView.findViewById(R.id.nav_bar_left_icon).setVisibility(type);
     }
 
-    public void showLeftIcon() {
-        View view = mView.findViewById(R.id.nav_bar_left_icon);
-        ViewGroup.LayoutParams lp = view.getLayoutParams();
-        if (mLeftInconWidth > 0) {
-            lp.height = mLeftInconWidth;
-            view.setLayoutParams(lp);
-        }
+    public void setRightIconVisibility(int type) {
+        mView.findViewById(R.id.nav_bar_right_icon).setVisibility(type);
     }
 
-    public void hideRightIcon() {
-        View view = mView.findViewById(R.id.nav_bar_right_icon);
-        ViewGroup.LayoutParams lp = view.getLayoutParams();
-        if (lp.width > 0) {
-            mRightInconWidth = lp.width;
-            lp.width = 0;
-            view.setLayoutParams(lp);
-        }
-    }
-
-    public void showRightIcon() {
-        View view = mView.findViewById(R.id.nav_bar_right_icon);
-        ViewGroup.LayoutParams lp = view.getLayoutParams();
-        if (mRightInconWidth > 0) {
-            lp.height = mRightInconWidth;
-            view.setLayoutParams(lp);
-        }
+    public void setNavBarVisibility(int type) {
+        mView.findViewById(R.id.nav_bar).setVisibility(type);
     }
 }

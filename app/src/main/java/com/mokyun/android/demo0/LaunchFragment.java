@@ -1,5 +1,6 @@
 package com.mokyun.android.demo0;
 
+import android.graphics.Color;
 import android.os.PersistableBundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
@@ -18,33 +19,33 @@ import com.eevoe.flow.FlowFragment;
 import com.mokyun.android.demo0.state.LoginState;
 
 public class LaunchFragment extends FlowFragment {
-//    @Nullable
-//    @Override
-//    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, final Bundle savedInstanceState) {
-//         View view = inflater.inflate(R.layout.launch, container, false);
-//         view.setOnClickListener(new View.OnClickListener() {
-//             @Override
-//             public void onClick(View view) {
-////                 getActivity().getSupportFragmentManager().popBackStack();
-////                HomeFragment fragment = new HomeFragment();
-////                getActivity().getSupportFragmentManager()
-////                        .beginTransaction()
-////                        .add(R.id.activity_container, fragment, HomeFragment.class.getSimpleName())
-////                        .commit();
-//                 Log.wtf("go", "go");
-//             }
-//         });
-//         return view;
-//    }
+    private static String TAG = LaunchFragment.class.getSimpleName();
+    private int mStatus = 0;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater) {
-        hideNav();
+//        hideNav();
         LinearLayout view = (LinearLayout) inflater.inflate(R.layout.launch, null, false);
         view.findViewById(R.id.launch_icon).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 replace(new HomeFragment());
+            }
+        });
+        Log.wtf(TAG, "status: " + mStatus);
+
+        view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (mStatus == 0) {
+                    mStatus = 1;
+                    getNavBarVModel().setLeftIconVisibility(View.GONE);
+                    view.setBackgroundColor(Color.parseColor("#000000"));
+                } else {
+                    mStatus = 0;
+                    getNavBarVModel().setLeftIconVisibility(View.VISIBLE);
+                    view.setBackgroundColor(Color.parseColor("#a7ccc5"));
+                }
             }
         });
 

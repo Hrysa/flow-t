@@ -5,21 +5,21 @@ import android.support.annotation.NonNull;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.Button;
-import android.widget.Toast;
 
 import com.eevoe.flow.FlowFragment;
+import com.eevoe.flow.annotation.FlowState;
 import com.mokyun.android.demo0.state.LoginState;
 
 public class HomeFragment extends FlowFragment {
+    private static final String TAG = HomeFragment.class.getSimpleName();
+
+    @FlowState
+    LoginState loginState;
+
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater) {
-//        getNavBarVModel().leftOnClick = new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Toast.makeText(getContext(), "点击返回键", Toast.LENGTH_SHORT).show();
-//            }
-//        };
+        Log.wtf(TAG, "onCreateView: " + this.getClass().getSimpleName() );
+        Log.wtf(TAG, "isLOGIN: " +loginState.isLogin());
         getNavBarVModel().title.set("测试");
         getNavBarVModel().rightOnClick = new View.OnClickListener() {
             @Override
@@ -27,12 +27,7 @@ public class HomeFragment extends FlowFragment {
                 push(new LaunchFragment());
             }
         };
-//        getNavBarVModel().leftIconVisibility.set(View.INVISIBLE);
-//        getNavBarVModel().rightIconVisibility.set(View.INVISIBLE);
-        getNavBarVModel().hideLeftIcon();
-//        getNavBarVModel().hideRightIcon();
 
-//        getNavBarVModel().rightTitle.set("更多");
 
         View view = inflater.inflate(R.layout.image, null, false);
         view.findViewById(R.id.img).setOnClickListener(new View.OnClickListener() {
@@ -44,20 +39,19 @@ public class HomeFragment extends FlowFragment {
                 startActivity(intent);
             }
         });
-        Button b1 = view.findViewById(R.id.hide);
-        b1.setOnClickListener(new View.OnClickListener() {
+        view.findViewById(R.id.hide).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                hideNav();
+                getNavBarVModel().setNavBarVisibility(View.GONE);
             }
         });
-        Button b2 = view.findViewById(R.id.show);
-        b2.setOnClickListener(new View.OnClickListener() {
+        view.findViewById(R.id.show).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                showNav();
+                getNavBarVModel().setNavBarVisibility(View.VISIBLE);
             }
         });
         return view;
     }
+
 }

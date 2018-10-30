@@ -2,31 +2,26 @@ package com.eevoe.flow;
 
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
-import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
-import android.widget.Toast;
 
 import com.eevoe.flow.vm.NavBarVModel;
 
-import com.eevoe.flow.databinding.NavBarBinding;
 import com.eevoe.flow.databinding.FragmentMainBinding;
-import com.eevoe.flow.databinding.ActivityMainBinding;
+
+import java.lang.reflect.Field;
 
 abstract public class FlowFragment extends Fragment {
+    private static final String TAG = FlowFragment.class.getSimpleName();
 
     RelativeLayout mLayout;
-
-    int mNavBarHeight;
 
     NavBarVModel mNavBarVModel;
 
@@ -35,27 +30,31 @@ abstract public class FlowFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
+        if (mNavBarVModel == null) {
 
-        Log.i("Fragment", "popBackStack: getSupportFragmentManager().getBackStackEntryCount() = " + getActivity().getSupportFragmentManager().getBackStackEntryCount());
+            // init annotation filed.
+            initAnnotation(this);
 
-        // init nav bar ViewModel.
-        mNavBarVModel = new NavBarVModel(getActivity().getApplication());
-        mNavBarVModel.init(this);
+            // init nav bar ViewModel.
+            mNavBarVModel = new NavBarVModel(getActivity().getApplication());
+            mNavBarVModel.init(this);
 
-        // inflate view.
-        mFragmentMainBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_main, container, false);
-        mFragmentMainBinding.navBar.setNavBarVModel(mNavBarVModel);
+            // inflate view.
+            mFragmentMainBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_main, container, false);
+            mFragmentMainBinding.navBar.setNavBarVModel(mNavBarVModel);
 
-        mLayout = (RelativeLayout) mFragmentMainBinding.getRoot();
-        mNavBarVModel.initView(mLayout);
+            mLayout = (RelativeLayout) mFragmentMainBinding.getRoot();
+            mNavBarVModel.initView(mLayout);
 
-        View view = onCreateView(inflater);
-        view.setClickable(true);
-        if (view != null) {
-            ((FrameLayout) mLayout.findViewById(R.id.fragment_container)).addView(view);
+            View view = onCreateView(inflater);
+            view.setClickable(true);
+            if (view != null) {
+                ((FrameLayout) mLayout.findViewById(R.id.fragment_container)).addView(view);
+            }
         }
 
         /**
+         * TODO not working right now.
          * if create with replace, call update function in FlowActivity.
          */
         ((FlowActivity) getActivity()).updateReplaceStatus();
@@ -66,30 +65,25 @@ abstract public class FlowFragment extends Fragment {
         return mNavBarVModel;
     }
 
-
-    public void hideNav() {
-        View nav = mLayout.findViewById(R.id.nav_bar);
-        ViewGroup.LayoutParams lp = nav.getLayoutParams();
-        if (lp.height > 0) {
-            mNavBarHeight = lp.height;
-            lp.height = 0;
-            nav.setLayoutParams(lp);
-        }
-    }
-
-
-    public void showNav() {
-        View nav = mLayout.findViewById(R.id.nav_bar);
-        ViewGroup.LayoutParams lp = nav.getLayoutParams();
-        if (mNavBarHeight > 0) {
-            lp.height = mNavBarHeight;
-            nav.setLayoutParams(lp);
-        }
-    }
-
     public void push(Fragment f) {
         ((FlowActivity) getActivity()).push(f);
 
+    }
+
+    private void initAnnotation(Object target) {
+        Class<?> clazz = target.getClass();
+        Field[] fields = clazz.getDeclaredFields();
+        for (Field field : fields) {
+            field.setAccessible(true);
+            try {
+                com.eevoe.flow.annotation.FlowState annotation = field.getAnnotation(com.eevoe.flow.annotation.FlowState.class);
+                if (annotation != null) {
+                    field.set(this, getState().get((Class)field.getType()));
+                }
+            } catch (IllegalAccessException ex) {
+
+            }
+        }
     }
 
     public void replace(Fragment f) {

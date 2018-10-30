@@ -24,7 +24,6 @@
             <ImageView
                 android:id="@+id/nav_bar_left_icon"
                 android:clickable="true"
-                android:visibility="@{navBarVModel.leftIconVisibility}"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:background="?attr/selectableItemBackgroundBorderless"
@@ -61,7 +60,6 @@
             <ImageView
                 android:id="@+id/nav_bar_right_icon"
                 android:clickable="true"
-                android:visibility="@{navBarVModel.leftIconVisibility}"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:background="?attr/selectableItemBackgroundBorderless"

@@ -46,58 +46,30 @@ abstract public class FlowActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        System.out.println("按下了back键   onBackPressed()");
-        Log.wtf("onBackPressed: ", Integer.toString(getSupportFragmentManager().getFragments().size()) );
-        if (getSupportFragmentManager().getFragments().size() > 0) {
-//            super.onBackPressed();
-            back();
+        System.out.println("按下了back键   onBackPressed()" + getSupportFragmentManager().getBackStackEntryCount());
+        if (getSupportFragmentManager().getBackStackEntryCount() > 1) {
+            getSupportFragmentManager().popBackStackImmediate();
         } else {
             Intent home = new Intent(Intent.ACTION_MAIN);
             home.addCategory(Intent.CATEGORY_HOME);
+            finish();
             startActivity(home);
         }
     }
 
     public void replace(Fragment fragment) {
-//        getSupportFragmentManager().beginTransaction()
-//                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
-//                .setCustomAnimations(R.anim.slide_right_in, R.anim.slide_right_out, R.anim.slide_right_in, R.anim.slide_right_out)
-//                .add(R.id.activity_container, fragment)
-//                .addToBackStack(fragment.getClass().getSimpleName())
-//                .commit();
+        // TODO not working right now.
         mIsReplaceFragmentIndex = getSupportFragmentManager().getBackStackEntryCount() - 1;
         Log.i(TAG, "replace: index: " + Integer.toString(mIsReplaceFragmentIndex));
         push(fragment);
-//        FragmentManager fm = getSupportFragmentManager();
-//        int size = fm.getFragments().size() - 1;
-//        getSupportFragmentManager().beginTransaction()
-//                .remove(fm.getFragments().get(size))
-//                .commit();
     }
 
     public void updateReplaceStatus() {
         if (mIsReplaceFragmentIndex > 0) {
             // TODO replace fragment.
             mIsReplaceFragmentIndex = -1;
-
-//            getSupportFragmentManager().popBackStack();
-//            final Fragment fragment = getSupportFragmentManager().getFragments().get(mIsReplaceFragmentIndex);
-//            getSupportFragmentManager().beginTransaction()
-//                    .remove(fragment)
-//                    .commit();
-//            Timer timer = new Timer();
-//            timer.schedule(new TimerTask() {
-//                @Override
-//                public void run() {
-//                    getSupportFragmentManager().beginTransaction()
-//                            .remove(fragment)
-//                            .commit();
-//                }
-//            }, 0);
         }
     }
-
-
 
     public void push(Fragment fragment) {
         getSupportFragmentManager()
@@ -109,16 +81,11 @@ abstract public class FlowActivity extends AppCompatActivity {
     }
 
     public void back(int size) {
-        Log.i(TAG, "popBackStack: getSupportFragmentManager().getBackStackEntryCount() = " + getSupportFragmentManager().getBackStackEntryCount());
-        FragmentManager fm = getSupportFragmentManager();
         for (int i = size; i > 0; i--) {
-            fm.popBackStackImmediate();
+            onBackPressed();
         }
     }
 
-//    public <T extends Object> T getState() {
-//        return ((FlowApplication) getApplication()).getState(new TypeToken<T>(){}.getClass());
-//    }
     public FlowState getState() {
         return ((FlowApplication) getApplication()).getState();
     }
