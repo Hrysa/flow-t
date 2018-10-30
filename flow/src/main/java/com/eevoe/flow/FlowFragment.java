@@ -40,13 +40,15 @@ abstract public class FlowFragment extends Fragment {
 
         // init nav bar ViewModel.
         mNavBarVModel = new NavBarVModel(getActivity().getApplication());
-        mNavBarVModel.init(getActivity());
+        mNavBarVModel.init(this);
 
         // inflate view.
         mFragmentMainBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_main, container, false);
         mFragmentMainBinding.navBar.setNavBarVModel(mNavBarVModel);
 
         mLayout = (RelativeLayout) mFragmentMainBinding.getRoot();
+        mNavBarVModel.initView(mLayout);
+
         View view = onCreateView(inflater);
         view.setClickable(true);
         if (view != null) {

@@ -11,24 +11,31 @@
         android:background="?attr/Flow.Primary.Color"
         android:paddingTop="20dp"
         android:gravity="center"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp"
         android:orientation="horizontal"
         android:baselineAligned="false">
         <LinearLayout
-            android:layout_gravity="center_vertical"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:padding="5dp"
             android:layout_width="wrap_content"
             android:layout_height="match_parent">
             <ImageView
+                android:id="@+id/nav_bar_left_icon"
                 android:clickable="true"
-                android:layout_width="50dp"
-                android:layout_height="match_parent"
-                android:background="?attr/selectableItemBackground"
-                android:padding="12.5dp"
+                android:visibility="@{navBarVModel.leftIconVisibility}"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
                 android:src="@{navBarVModel.leftIcon}"
                 android:onClick="@{navBarVModel.leftOnClick}" />
         </LinearLayout>
 
         <LinearLayout
             android:layout_weight="1"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
             android:gravity="@{navBarVModel.titleGravity}"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
@@ -46,16 +53,18 @@
 
 
         <LinearLayout
-            android:gravity="center_vertical|right"
             android:clickable="true"
+            android:gravity="center"
+            android:padding="5dp"
             android:layout_width="wrap_content"
             android:layout_height="match_parent">
             <ImageView
+                android:id="@+id/nav_bar_right_icon"
                 android:clickable="true"
-                android:layout_width="50dp"
-                android:layout_height="match_parent"
-                android:background="?attr/selectableItemBackground"
-                android:padding="12.5dp"
+                android:visibility="@{navBarVModel.leftIconVisibility}"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
                 android:src="@{navBarVModel.rightIcon}"
                 android:onClick="@{navBarVModel.rightOnClick}" />
         </LinearLayout>
