@@ -12,45 +12,47 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
 
+import com.eevoe.flow.annotation.FlowBindView;
 import com.eevoe.flow.vm.NavBarVModel;
 
 import com.eevoe.flow.databinding.FragmentMainBinding;
 
+import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 
 abstract public class FlowFragment extends Fragment {
     private static final String TAG = FlowFragment.class.getSimpleName();
 
-    RelativeLayout mLayout;
+    private RelativeLayout mLayout;
 
-    NavBarVModel mNavBarVModel;
+    private NavBarVModel mNavBarVModel;
 
-    FragmentMainBinding mFragmentMainBinding;
+    private FragmentMainBinding mFragmentMainBinding;
+
+    private int mContentViewId = 0;
+
+    private View mContentView;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         if (mNavBarVModel == null) {
 
+            // init nav bar ViewModel.
+            initNavBarVModel();
+
+            // inflate view and data binding.
+            initDataBinding(inflater, container);
+
             // init annotation filed.
             initAnnotation(this);
 
-            // init nav bar ViewModel.
-            mNavBarVModel = new NavBarVModel(getActivity().getApplication());
-            mNavBarVModel.init(this);
-
-            // inflate view.
-            mFragmentMainBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_main, container, false);
-            mFragmentMainBinding.navBar.setNavBarVModel(mNavBarVModel);
-
-            mLayout = (RelativeLayout) mFragmentMainBinding.getRoot();
-            mNavBarVModel.initView(mLayout);
-
-            View view = onCreateView(inflater);
-            view.setClickable(true);
-            if (view != null) {
-                ((FrameLayout) mLayout.findViewById(R.id.fragment_container)).addView(view);
+            // create and init main content view.
+            if (mContentViewId != 0) {
+                createContentView(inflater);
+                initView(mContentView);
             }
+
         }
 
         /**
@@ -61,8 +63,33 @@ abstract public class FlowFragment extends Fragment {
         return mLayout;
     }
 
+    private void createContentView(LayoutInflater inflater) {
+        mContentView = inflater.inflate(mContentViewId, mLayout, false);
+        mContentView.setClickable(true);
+        ((FrameLayout) mLayout.findViewById(R.id.fragment_container)).addView(mContentView);
+    }
+
+    private void initNavBarVModel() {
+        mNavBarVModel = new NavBarVModel(getActivity().getApplication());
+        mNavBarVModel.init(this);
+    }
+
+    private void initDataBinding(LayoutInflater inflater, @Nullable ViewGroup container) {
+        mFragmentMainBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_main, container, false);
+        mFragmentMainBinding.navBar.setNavBarVModel(mNavBarVModel);
+        mLayout = (RelativeLayout) mFragmentMainBinding.getRoot();
+    }
+
     protected NavBarVModel getNavBarVModel() {
         return mNavBarVModel;
+    }
+
+    protected View getContentView() {
+        return mContentView;
+    }
+
+    public View getLayout() {
+        return mLayout;
     }
 
     public void push(Fragment f) {
@@ -84,6 +111,18 @@ abstract public class FlowFragment extends Fragment {
 
             }
         }
+        Annotation[] annotations = clazz.getAnnotations();
+        for (Annotation anno : annotations) {
+            if (anno.annotationType() == FlowBindView.class) {
+                FlowBindView anno2 = (FlowBindView) anno;
+                mContentViewId = anno2.view();
+                if (anno2.hideNav()) {
+                    mNavBarVModel.setVisibility(View.GONE);
+                }
+                mNavBarVModel.title.set(anno2.navTitle());
+            }
+
+        }
     }
 
     public void replace(Fragment f) {
@@ -94,5 +133,5 @@ abstract public class FlowFragment extends Fragment {
         return ((FlowActivity) getActivity()).getState();
     }
 
-    abstract public View onCreateView(@NonNull LayoutInflater inflater);
+    abstract public void initView(View view);
 }

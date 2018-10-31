@@ -7,6 +7,8 @@ import android.view.View;
 import android.widget.LinearLayout;
 
 import com.eevoe.flow.FlowFragment;
+import com.eevoe.flow.annotation.FlowBindView;
+import com.eevoe.flow.annotation.FlowState;
 import com.eevoe.flow.http.response.Res;
 import com.mokyun.android.demo0.http.Post;
 import com.mokyun.android.demo0.http.TestService;
@@ -20,46 +22,34 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+@FlowBindView(view = R.layout.login, hideNav = true, navTitle = "")
 public class LoginFragment extends FlowFragment {
+    private static String TAG = LoginFragment.class.getSimpleName();
+
+    @FlowState
+    ApiClientState mApiClientState;
 
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater) {
-        getNavBarVModel().setNavBarVisibility(View.GONE);
+    public void initView(View view) {
+        Log.wtf(TAG, "initView: " );
 
-        LinearLayout view = (LinearLayout) inflater.inflate(R.layout.login, null, false);
+        getNavBarVModel().setVisibility(View.GONE);
         view.findViewById(R.id.login).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 push(new LaunchFragment());
             }
         });
-//        view.findViewById(R.id.launch_icon).setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                push(new HomeFragment());
-//            }
-//        });
-//
-//        view.findViewById(R.id.login).setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                getState().get(LoginState.class).setLogin(LoginState.IS_LOGIN);
-//            }
-//        });
-        getState()
-                .get(ApiClientState.class)
-                .create(TestService.class)
-                .test()
-                .enqueue(new Callback<Res<List<Post>>>() {
-                    @Override
-                    public void onResponse(Call<Res<List<Post>>> call, Response<Res<List<Post>>> response) {
-                        Log.wtf("????", response.body().toJsonString());
-                        response.body();
-                    }
+        mApiClientState.create(TestService.class).test().enqueue(new Callback<Res<List<Post>>>() {
+            @Override
+            public void onResponse(Call<Res<List<Post>>> call, Response<Res<List<Post>>> response) {
+                Log.wtf("????", response.body().toJsonString());
+                response.body();
+            }
 
-                    @Override
-                    public void onFailure(Call<Res<List<Post>>> call, Throwable t) {}
-                });
-        return view;
+            @Override
+            public void onFailure(Call<Res<List<Post>>> call, Throwable t) {
+            }
+        });
     }
 }

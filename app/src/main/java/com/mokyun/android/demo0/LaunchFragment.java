@@ -16,16 +16,16 @@ import android.widget.Toast;
 
 import com.eevoe.flow.FlowActivity;
 import com.eevoe.flow.FlowFragment;
+import com.eevoe.flow.annotation.FlowBindView;
 import com.mokyun.android.demo0.state.LoginState;
 
+@FlowBindView(view = R.layout.launch, navTitle = "Launch")
 public class LaunchFragment extends FlowFragment {
     private static String TAG = LaunchFragment.class.getSimpleName();
     private int mStatus = 0;
 
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater) {
-//        hideNav();
-        LinearLayout view = (LinearLayout) inflater.inflate(R.layout.launch, null, false);
+    public void initView(View view) {
         view.findViewById(R.id.launch_icon).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -55,6 +55,5 @@ public class LaunchFragment extends FlowFragment {
                 getState().get(LoginState.class).setLogin(LoginState.IS_LOGIN);
             }
         });
-        return view;
     }
 }

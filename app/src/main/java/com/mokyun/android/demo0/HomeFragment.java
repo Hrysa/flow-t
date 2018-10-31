@@ -7,9 +7,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 
 import com.eevoe.flow.FlowFragment;
+import com.eevoe.flow.annotation.FlowBindView;
 import com.eevoe.flow.annotation.FlowState;
 import com.mokyun.android.demo0.state.LoginState;
 
+@FlowBindView(view = R.layout.image, navTitle = "测试")
 public class HomeFragment extends FlowFragment {
     private static final String TAG = HomeFragment.class.getSimpleName();
 
@@ -17,10 +19,9 @@ public class HomeFragment extends FlowFragment {
     LoginState loginState;
 
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater) {
+    public void initView(View view) {
         Log.wtf(TAG, "onCreateView: " + this.getClass().getSimpleName() );
         Log.wtf(TAG, "isLOGIN: " +loginState.isLogin());
-        getNavBarVModel().title.set("测试");
         getNavBarVModel().rightOnClick = new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -28,8 +29,6 @@ public class HomeFragment extends FlowFragment {
             }
         };
 
-
-        View view = inflater.inflate(R.layout.image, null, false);
         view.findViewById(R.id.img).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -42,16 +41,15 @@ public class HomeFragment extends FlowFragment {
         view.findViewById(R.id.hide).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                getNavBarVModel().setNavBarVisibility(View.GONE);
+                getNavBarVModel().setVisibility(View.GONE);
             }
         });
         view.findViewById(R.id.show).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                getNavBarVModel().setNavBarVisibility(View.VISIBLE);
+                getNavBarVModel().setVisibility(View.VISIBLE);
             }
         });
-        return view;
     }
 
 }

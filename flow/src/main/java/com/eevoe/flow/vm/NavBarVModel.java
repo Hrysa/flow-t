@@ -30,6 +30,7 @@ import android.widget.Toast;
 
 import com.eevoe.flow.BR;
 import com.eevoe.flow.FlowActivity;
+import com.eevoe.flow.FlowFragment;
 import com.eevoe.flow.R;
 
 public class NavBarVModel extends AndroidViewModel {
@@ -42,11 +43,9 @@ public class NavBarVModel extends AndroidViewModel {
     public View.OnClickListener leftOnClick;
     public View.OnClickListener rightOnClick;
 
-    Fragment mFragment;
+    FlowFragment mFragment;
 
-    View mView;
-
-    public void init(final Fragment fragment) {
+    public void init(final FlowFragment fragment) {
         mFragment = fragment;
         leftIcon.set(mFragment.getResources().getDrawable(R.drawable.back));
         rightIcon.set(mFragment.getResources().getDrawable(R.drawable.more));
@@ -62,19 +61,15 @@ public class NavBarVModel extends AndroidViewModel {
         super(application);
     }
 
-    public void initView(final View view) {
-        mView = view;
-    }
-
     public void setLeftIconVisibility(int type) {
-        mView.findViewById(R.id.nav_bar_left_icon).setVisibility(type);
+        mFragment.getLayout().findViewById(R.id.nav_bar_left_icon).setVisibility(type);
     }
 
     public void setRightIconVisibility(int type) {
-        mView.findViewById(R.id.nav_bar_right_icon).setVisibility(type);
+        mFragment.getLayout().findViewById(R.id.nav_bar_right_icon).setVisibility(type);
     }
 
-    public void setNavBarVisibility(int type) {
-        mView.findViewById(R.id.nav_bar).setVisibility(type);
+    public void setVisibility(int type) {
+        mFragment.getLayout().findViewById(R.id.nav_bar).setVisibility(type);
     }
 }
