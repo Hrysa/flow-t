@@ -22,7 +22,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-@FlowBindView(view = R.layout.login, hideNav = true, navTitle = "")
+@FlowBindView(view = R.layout.login, hideNav = true, title = "")
 public class LoginFragment extends FlowFragment {
     private static String TAG = LoginFragment.class.getSimpleName();
 

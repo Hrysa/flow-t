@@ -11,7 +11,7 @@ import com.eevoe.flow.annotation.FlowBindView;
 import com.eevoe.flow.annotation.FlowState;
 import com.mokyun.android.demo0.state.LoginState;
 
-@FlowBindView(view = R.layout.image, navTitle = "测试")
+@FlowBindView(view = R.layout.image, title = "测试")
 public class HomeFragment extends FlowFragment {
     private static final String TAG = HomeFragment.class.getSimpleName();
 

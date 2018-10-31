@@ -19,7 +19,7 @@ import com.eevoe.flow.FlowFragment;
 import com.eevoe.flow.annotation.FlowBindView;
 import com.mokyun.android.demo0.state.LoginState;
 
-@FlowBindView(view = R.layout.launch, navTitle = "Launch")
+@FlowBindView(view = R.layout.launch, title = "Launch")
 public class LaunchFragment extends FlowFragment {
     private static String TAG = LaunchFragment.class.getSimpleName();
     private int mStatus = 0;

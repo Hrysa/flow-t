@@ -119,7 +119,11 @@ abstract public class FlowFragment extends Fragment {
                 if (anno2.hideNav()) {
                     mNavBarVModel.setVisibility(View.GONE);
                 }
-                mNavBarVModel.title.set(anno2.navTitle());
+                if (anno2.titleId() != 0) {
+                    mNavBarVModel.title.set(getString(anno2.titleId()));
+                } else {
+                    mNavBarVModel.title.set(anno2.title());
+                }
             }
 
         }
