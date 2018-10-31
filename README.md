@@ -24,7 +24,7 @@ android toy testing version
 	> latest release version see <a href="https://github.com/Hrysa/flow-t/releases">here</a>.
 	
 
-## initalization
+## initialization
 
 ### create application class (optional)
 	
@@ -44,8 +44,7 @@ set class into `AndroidManifest.xml`
 ```xml
 	
 	<application
-		...
-   	android:name=".DemoApplication">
+   	android:name=".DemoApplication" />
 ```
 
 ### extends your theme
@@ -90,5 +89,4 @@ public class TestFragment extends FlowFragment {
 ``` 
 
 ### Manage State
-> TODO README
 	

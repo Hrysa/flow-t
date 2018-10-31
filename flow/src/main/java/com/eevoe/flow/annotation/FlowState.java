@@ -9,10 +9,3 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface FlowState {
 }
-
-
-//@Retention(CLASS) @Target(FIELD)
-//public @interface BindView {
-//    /** View ID to which the field will be bound. */
-//    @IdRes int value();
-//}

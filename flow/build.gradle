@@ -1,4 +1,7 @@
 apply plugin: 'com.android.library'
+apply plugin: 'com.github.dcendents.android-maven'
+group='com.github.Hrysa'
+
 
 android {
     compileSdkVersion 27
@@ -44,33 +47,25 @@ dependencies {
     implementation 'com.squareup.retrofit2:converter-gson:2.4.0'
     implementation 'com.squareup.retrofit2:adapter-rxjava2:2.4.0'
     implementation 'com.github.bumptech.glide:glide:4.6.1'
-//    compile 'com.jcodecraeer:xrecyclerview:1.3.2'
+    // implementation 'com.jcodecraeer:xrecyclerview:1.3.2'
 
     //support
     implementation 'android.arch.lifecycle:extensions:1.1.1'
-//  implementation "com.android.support:appcompat-v7:27.0.0"
     implementation "com.android.support:recyclerview-v7:27.1.1"
 }
 
 
 
-//def _BASENAME = "flow";
-//def _VERSION = "1.0";
-//def _DestinationPath = "build"; //生成jar包的位置
-//def zipFile = file('build/intermediates/bundles/default/classes.jar'); //待打包文件位置
+// 指定编码
+tasks.withType(JavaCompile) {
+    options.encoding = "UTF-8"
+}
 
-//task deleteBuild(type:Delete){
-//    delete _DestinationPath + _BASENAME + _VERSION + ".jar"
-//}
-//
-//task makeJar(type:Jar){
-//    from zipTree(zipFile)
-//    from fileTree(dir:'src/main',includes:['assets/**']) //将assets目录打入jar包
-//    baseName = _BASENAME + "-" + _VERSION
-//    destinationDir = file(_DestinationPath)
-//}
-//
-//makeJar.dependsOn(deleteBuild, build)
+// 打包源码
+task sourcesJar(type: Jar) {
+    from android.sourceSets.main.java.srcDirs
+    classifier = 'sources'
+}
 
 task deleteJar(type: Delete) {
     delete 'libs/jars/logmanagementlib.jar'
