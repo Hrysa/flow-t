@@ -23,14 +23,17 @@ abstract public class FlowActivity extends AppCompatActivity {
 
     private FrameLayout mContainer;
 
+    private FragmentManager fm;
+
     @Override
     final protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        fm = getSupportFragmentManager();
+
         // init ui translucent theme.
         getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
 
-//        setContentView(R.layout.activity_main);
         mContainer = new FrameLayout(this);
         mContainer.setId(getContextViewId());
         setContentView(mContainer);
@@ -46,18 +49,14 @@ abstract public class FlowActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        System.out.println("按下了back键   onBackPressed()" + getSupportFragmentManager().getBackStackEntryCount());
-        if (getSupportFragmentManager().getBackStackEntryCount() > 1) {
-            getSupportFragmentManager().popBackStackImmediate();
-        } else {
-            Intent home = new Intent(Intent.ACTION_MAIN);
-            home.addCategory(Intent.CATEGORY_HOME);
-            finish();
-            startActivity(home);
+        Log.i(TAG, "onBackPressed: " + fm.getBackStackEntryCount());
+        FlowFragment currentFragment = (FlowFragment) getSupportFragmentManager().findFragmentById(getContextViewId());
+        if (currentFragment != null) {
+            currentFragment.back();
         }
     }
 
-    public void replace(Fragment fragment) {
+    public void replace(FlowFragment fragment) {
         // TODO not working right now.
         mIsReplaceFragmentIndex = getSupportFragmentManager().getBackStackEntryCount() - 1;
         Log.i(TAG, "replace: index: " + Integer.toString(mIsReplaceFragmentIndex));
@@ -71,19 +70,13 @@ abstract public class FlowActivity extends AppCompatActivity {
         }
     }
 
-    public void push(Fragment fragment) {
+    public void push(FlowFragment fragment) {
         getSupportFragmentManager()
                 .beginTransaction()
-                .setCustomAnimations(R.anim.slide_right_in, R.anim.slide_left_out, R.anim.slide_left_in, R.anim.slide_right_out)
+                .setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left, R.anim.slide_in_left, R.anim.slide_out_right)
                 .replace(getContextViewId(), fragment, fragment.getClass().getSimpleName())
                 .addToBackStack(fragment.getClass().getSimpleName())
                 .commit();
-    }
-
-    public void back(int size) {
-        for (int i = size; i > 0; i--) {
-            onBackPressed();
-        }
     }
 
     public FlowState getState() {
@@ -91,7 +84,13 @@ abstract public class FlowActivity extends AppCompatActivity {
     }
 
     public void back() {
-        back(1);
+        if (fm.getBackStackEntryCount() > 1) {
+            fm.popBackStackImmediate();
+        } else {
+            Intent intent = new Intent(Intent.ACTION_MAIN);
+            intent.addCategory(Intent.CATEGORY_HOME);
+            startActivity(intent);
+        }
     }
 
     abstract protected Fragment onCreateFlow(Bundle savedInstanceState);

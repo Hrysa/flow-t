@@ -1,5 +1,6 @@
 package com.eevoe.flow;
 
+import android.content.res.Resources;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -9,6 +10,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
 
@@ -32,6 +36,14 @@ abstract public class FlowFragment extends Fragment {
     private int mContentViewId = 0;
 
     private View mContentView;
+
+    private boolean mCalled;
+
+    private int mEnterAnimationStatus;
+
+    public static final int ANIMATION_ENTER_STATUS_NOT_START = -1;
+    public static final int ANIMATION_ENTER_STATUS_STARTED = 0;
+    public static final int ANIMATION_ENTER_STATUS_END = 1;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
@@ -92,9 +104,82 @@ abstract public class FlowFragment extends Fragment {
         return mLayout;
     }
 
-    public void push(Fragment f) {
+    public void push(FlowFragment f) {
         ((FlowActivity) getActivity()).push(f);
 
+    }
+
+    @Override
+    public Animation onCreateAnimation(int transit, boolean enter, int nextAnim) {
+//        return super.onCreateAnimation(transit, enter, nextAnim);
+        if (!enter && getParentFragment() != null && getParentFragment().isRemoving()) {
+            // This is a workaround for the bug where child fragments disappear when
+            // the parent is removed (as all children are first removed from the parent)
+            // See https://code.google.com/p/android/issues/detail?id=55228
+            Animation doNothingAnim = new AlphaAnimation(1, 1);
+            doNothingAnim.setDuration(300);
+            return doNothingAnim;
+        }
+        Animation animation = null;
+        if (enter) {
+            try {
+                animation = AnimationUtils.loadAnimation(getContext(), nextAnim);
+
+            } catch (Resources.NotFoundException ignored) {
+
+            } catch (RuntimeException ignored) {
+
+            }
+            if (animation != null) {
+                animation.setAnimationListener(new Animation.AnimationListener() {
+                    @Override
+                    public void onAnimationStart(Animation animation) {
+                        onEnterAnimationStart(animation);
+                    }
+
+                    @Override
+                    public void onAnimationEnd(Animation animation) {
+                        checkAndCallOnEnterAnimationEnd(animation);
+                    }
+
+                    @Override
+                    public void onAnimationRepeat(Animation animation) {
+
+                    }
+                });
+            } else {
+                onEnterAnimationStart(null);
+                checkAndCallOnEnterAnimationEnd(null);
+            }
+        }
+        return animation;
+
+    }
+
+    private void checkAndCallOnEnterAnimationEnd(@Nullable Animation animation) {
+        mCalled = false;
+        onEnterAnimationEnd(animation);
+        if (!mCalled) {
+            throw new RuntimeException("FlowFragment " + this + " did not call through to super.onEnterAnimationEnd(Animation)");
+        }
+    }
+
+    protected void onEnterAnimationStart(@Nullable Animation animation) {
+        mEnterAnimationStatus = ANIMATION_ENTER_STATUS_STARTED;
+    }
+
+    protected void onEnterAnimationEnd(@Nullable Animation animation) {
+        if (mCalled) {
+            throw new IllegalAccessError("don't call #onEnterAnimationEnd() directly");
+        }
+        mCalled = true;
+        mEnterAnimationStatus = ANIMATION_ENTER_STATUS_END;
+//        if (mDelayRenderRunnableList.size() > 0) {
+//            for (int i = 0; i < mDelayRenderRunnableList.size(); i++) {
+//                mDelayRenderRunnableList.get(i).run();
+//            }
+//            mDelayRenderRunnableList.clear();
+//        }
     }
 
     private void initAnnotation(Object target) {
@@ -129,7 +214,14 @@ abstract public class FlowFragment extends Fragment {
         }
     }
 
-    public void replace(Fragment f) {
+    public void back() {
+        if (mEnterAnimationStatus != ANIMATION_ENTER_STATUS_END) {
+            return;
+        }
+        ((FlowActivity) getActivity()).back();
+    }
+
+    public void replace(FlowFragment f) {
         ((FlowActivity) getActivity()).replace(f);
     }
 
