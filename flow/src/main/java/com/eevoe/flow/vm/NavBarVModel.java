@@ -37,7 +37,7 @@ public class NavBarVModel extends AndroidViewModel {
     final public ObservableField<Drawable> leftIcon = new ObservableField<>();
     final public ObservableField<Drawable> rightIcon = new ObservableField<>();
     final public ObservableField<String> title = new ObservableField<>();
-    final public ObservableField<Integer> titleGravity = new ObservableField<>(Gravity.LEFT);
+    final public ObservableField<Integer> titleGravity = new ObservableField<>(Gravity.CENTER);
 
 
     public View.OnClickListener leftOnClick;
