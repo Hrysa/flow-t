@@ -77,7 +77,7 @@ abstract public class FlowFragment extends Fragment {
         return mLayout;
     }
 
-    public abstract void onResumeFlow();
+    public void onResumeFlow(){}
 
     private void createContentView(LayoutInflater inflater) {
         mContentView = inflater.inflate(mContentViewId, mLayout, false);
