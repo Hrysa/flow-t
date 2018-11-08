@@ -67,6 +67,8 @@ abstract public class FlowFragment extends Fragment {
 
         }
 
+        onResumeFlow();
+
         /**
          * TODO not working right now.
          * if create with replace, call update function in FlowActivity.
@@ -74,6 +76,8 @@ abstract public class FlowFragment extends Fragment {
         ((FlowActivity) getActivity()).updateReplaceStatus();
         return mLayout;
     }
+
+    public abstract void onResumeFlow();
 
     private void createContentView(LayoutInflater inflater) {
         mContentView = inflater.inflate(mContentViewId, mLayout, false);
