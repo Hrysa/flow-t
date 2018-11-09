@@ -52,4 +52,9 @@ public class LoginFragment extends FlowFragment {
             }
         });
     }
+
+    @Override
+    public void onShow() {
+        Log.wtf(TAG, "on show");
+    }
 }

@@ -24,7 +24,7 @@ import com.eevoe.flow.databinding.FragmentMainBinding;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 
-abstract public class FlowFragment extends Fragment {
+abstract public class FlowFragment extends Fragment implements FlowFragmentImpl {
     private static final String TAG = FlowFragment.class.getSimpleName();
 
     private RelativeLayout mLayout;
@@ -67,7 +67,7 @@ abstract public class FlowFragment extends Fragment {
 
         }
 
-        onResumeFlow();
+        onShow();
 
         /**
          * TODO not working right now.
@@ -76,8 +76,6 @@ abstract public class FlowFragment extends Fragment {
         ((FlowActivity) getActivity()).updateReplaceStatus();
         return mLayout;
     }
-
-    public void onResumeFlow(){}
 
     private void createContentView(LayoutInflater inflater) {
         mContentView = inflater.inflate(mContentViewId, mLayout, false);
@@ -233,5 +231,6 @@ abstract public class FlowFragment extends Fragment {
         return ((FlowActivity) getActivity()).getState();
     }
 
-    abstract public void initView(View view);
+    @Override
+    public void onShow() {}
 }
